@@ -1,5 +1,6 @@
 import cv2
 import skimage
+from PIL import Image
 import numpy as np
 
 class color_comparison():
@@ -33,11 +34,17 @@ class color_comparison():
         average_color = np.average(average_color_per_row, axis=0)
         return average_color
     
+    def extrema_color(self):
+        extrema_color = Image.open(self.img).getextrema()
+        return extrema_color
+    
+    def pallette_color(self):
+        pallette_color = Image.open(self.img).getpalette()
+        return pallette_color
+
 
 
 if __name__ == "__main__":
     color = color_comparison(img='test.png')
-    print (color.average_color())
-    print (color.mean_color())
-    print (color.color_histogram())
+    print (color.pallette_color())
     
