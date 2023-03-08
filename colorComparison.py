@@ -7,7 +7,7 @@ class color_comparison():
     def __init__(self, img):
         self.img = img
     
-    def color_histogram(self):
+    def color_histogram(self) -> tuple:
         image = cv2.imread(self.img)
         histBlue = cv2.calcHist([image],[0],None,[256],[0,256])
         histRed = cv2.calcHist([image],[1],None,[256],[0,256])
@@ -15,7 +15,7 @@ class color_comparison():
         return (histBlue, histRed, histGreen)
 
 
-    def mean_color(self):
+    def mean_color(self) -> list:
         img = skimage.io.imread(self.img)[:, :, :-1]
         mean = img.mean(axis=0).mean(axis=0)
         pixels = np.float32(img.reshape(-1, 3))
@@ -27,18 +27,17 @@ class color_comparison():
         dominant = palette[np.argmax(counts)]
         return [mean, dominant]
 
-
-    def average_color(self):
+    def average_color(self) -> list:
         img = cv2.imread(self.img)
         average_color_per_row = np.average(img, axis=0)
         average_color = np.average(average_color_per_row, axis=0)
         return average_color
     
-    def extrema_color(self):
+    def extrema_color(self) -> tuple:
         extrema_color = Image.open(self.img).getextrema()
         return extrema_color
     
-    def pallette_color(self):
+    def pallette_color(self) -> list:
         pallette_color = Image.open(self.img).getpalette()
         return pallette_color
 

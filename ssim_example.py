@@ -5,7 +5,7 @@ from skimage import data, img_as_float
 from skimage.metrics import structural_similarity as ssim
 import cv2
 
-def compare_image (imageA, imageB):
+def compare_image (imageA, imageB) -> float:
 	example = imageA  #cv2.imread(imageA)
 	target =  imageB  #cv2.imread(imageB)
 	example = cv2.resize(example, (1920, 1080))
