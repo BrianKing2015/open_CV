@@ -5,17 +5,19 @@ from skimage import data, img_as_float
 from skimage.metrics import structural_similarity as ssim
 import cv2
 
-def compare_image (imageA: np.array, imageB: np.array) -> float:
-	example = imageA  #cv2.imread(imageA)
-	target =  imageB  #cv2.imread(imageB)
-	example = cv2.resize(example, (1920, 1080))
-	target = cv2.resize(target, (1920, 1080))
-	example = cv2.cvtColor(example, cv2.COLOR_BGR2GRAY)
-	target = cv2.cvtColor(target, cv2.COLOR_BGR2GRAY)
-	s = ssim(example, target)
-	return (s)
+def compare_image (original_img: np.array, new_img: np.array) -> float:
+	original_img = cv2.resize(original_img, (1920, 1080))
+	new_img = cv2.resize(new_img, (1920, 1080))
+	original_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
+	new_img = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
+	structural_similarity_measure = ssim(original_img, new_img)
+	return (structural_similarity_measure)
 
 
-#ssim_score = compare_image("examplar.jpg","720p.jpg")
-#print (ssim_score)
-
+if __name__ == '__main__':
+	original_image = cv2.imread("grey.png")
+	list_of_images = ["test.png", "grey.png", "apple.jpg", "pixabay_nature.jpg"]
+	for img in list_of_images:
+		new_image = cv2.imread(img)
+		ssim_score = compare_image(original_image, new_image)
+		print(ssim_score)

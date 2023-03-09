@@ -2,6 +2,7 @@ import cv2
 import skimage
 from PIL import Image
 import numpy as np
+from timeit import timeit
 
 class color_comparison():
     def __init__(self, img: str):
@@ -13,7 +14,6 @@ class color_comparison():
         histRed = cv2.calcHist([image],[1],None,[256],[0,256])
         histGreen = cv2.calcHist([image],[2],None,[256],[0,256])
         return (histBlue, histRed, histGreen)
-
 
     def mean_color(self) -> list:
         img = skimage.io.imread(self.img)[:, :, :-1]
@@ -44,6 +44,14 @@ class color_comparison():
 
 
 if __name__ == "__main__":
-    color = color_comparison(img='test.png')
-    print (color.pallette_color())
+    list_of_images = ["test.png", "grey.png", "apple.jpg", "pixabay_nature.jpg"]
+    for img in list_of_images:
+        color = color_comparison(img=img)
+        print(img)
+        print("color_histogram: ", timeit ('color.color_histogram()', globals=globals(), number=1000))
+        # print("mean_color: ", timeit ('color.mean_color()', globals=globals(), number=1000)) # takes too long
+        print("average_color: ", timeit ('color.average_color()', globals=globals(), number=1000))
+        print("extrema_color: ", timeit ('color.extrema_color()', globals=globals(), number=1000))
+        print("pallette_color: ", timeit ('color.pallette_color()', globals=globals(), number=1000))
+    
     
