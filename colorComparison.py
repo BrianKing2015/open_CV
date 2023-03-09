@@ -40,11 +40,16 @@ class color_comparison():
     def pallette_color(self) -> list:
         pallette_color = Image.open(self.img).getpalette()
         return pallette_color
+    
+def create_single_color_image(color: tuple) -> np.array:
+    img = np.zeros((420, 680, 3), np.uint8)
+    img[:] = color
+    return img
 
 
 
 if __name__ == "__main__":
-    list_of_images = ["test.png", "grey.png", "apple.jpg", "pixabay_nature.jpg"]
+    list_of_images = ["test.png", "red.png"]
     for img in list_of_images:
         color = color_comparison(img=img)
         print(img)
@@ -54,4 +59,5 @@ if __name__ == "__main__":
         print("extrema_color: ", timeit ('color.extrema_color()', globals=globals(), number=1000))
         print("pallette_color: ", timeit ('color.pallette_color()', globals=globals(), number=1000))
     
-    
+    # red = create_single_color_image((0, 0, 255))
+    # cv2.imwrite("red.png", red)
