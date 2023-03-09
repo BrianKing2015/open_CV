@@ -3,12 +3,12 @@ import numpy as np
 import pickle
 import datetime 
 
-def km_read_img(img) -> np.ndarray:
+def km_read_img(img: str) -> np.ndarray:
     image = cv2.imread(img).astype(np.float32)/255.
     image_lab = cv2.cvtColor(image, cv2.COLOR_BGR2Lab)
     return image_lab
 
-def apply_kmeans(img, num_clusters) -> tuple:
+def apply_kmeans(img: str, num_clusters: int) -> tuple:
     data = img.reshape((-1, 3))
     num_classes = num_clusters
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 50, 0.1)
@@ -16,7 +16,7 @@ def apply_kmeans(img, num_clusters) -> tuple:
     return(labels, centers)
 
 
-def create_kmeans_colors(img, num_clusters) -> list:
+def create_kmeans_colors(img: str, num_clusters: int) -> list:
     color_center = []
     image_lab = km_read_img(img)
     labels, centers = apply_kmeans(img=image_lab, num_clusters=num_clusters)
@@ -25,7 +25,7 @@ def create_kmeans_colors(img, num_clusters) -> list:
 
     return color_center
 
-def create_key_points(img) -> list:
+def create_key_points(img: str) -> list:
     keyPoints = []
     img = cv2.imread(img, cv2.IMREAD_COLOR)
     fast = cv2.FastFeatureDetector_create(160, True, cv2.FAST_FEATURE_DETECTOR_TYPE_9_16)
@@ -35,14 +35,14 @@ def create_key_points(img) -> list:
 
     return keyPoints
 
-def create_histogram(img) -> tuple:
+def create_histogram(img: str) -> tuple:
     img1 = cv2.imread(img)
     histBlue = cv2.calcHist([img1],[0],None,[256],[0,256])
     histRed = cv2.calcHist([img1],[1],None,[256],[0,256])
     histGreen = cv2.calcHist([img1],[2],None,[256],[0,256])
     return (histBlue, histRed, histGreen)
 
-def make_pickles(img) -> None:
+def make_pickles(img: str) -> None:
     colors = create_kmeans_colors(img, 5)
     keyPoints = create_key_points(img)
     histogram = create_histogram(img)
@@ -50,7 +50,7 @@ def make_pickles(img) -> None:
 
 if __name__ == '__main__':
     original_colors, original_keyPoints, original_histogram = pickle.load(open("examplar.p", "rb"))
-    #make_pickles("examplar.jpg")
+    # make_pickles("examplar.jpg")
     with open ("file_locations.csv") as f:
         img_list = f.readlines()
 

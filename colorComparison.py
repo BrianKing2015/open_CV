@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 class color_comparison():
-    def __init__(self, img):
+    def __init__(self, img: str):
         self.img = img
     
     def color_histogram(self) -> tuple:
